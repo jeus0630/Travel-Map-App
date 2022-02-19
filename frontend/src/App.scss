@@ -1,0 +1,27 @@
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    li{
+        em {
+            display: block;
+            margin: 3px 0;
+            border-bottom: .5px solid tomato;
+            font-size: 13px;
+            color: tomato;
+        }
+
+        .stars{
+            svg{
+                width: 20px;
+                color: #F5E749;
+            }
+        }
+
+        .date{
+            padding-left: 5px;
+            font-size: 10px;
+        }
+    }
+}
