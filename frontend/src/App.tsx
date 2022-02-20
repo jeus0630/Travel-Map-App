@@ -64,66 +64,74 @@ function App() {
       dispatch({ type: "longitude", payload: 127.1017 });
     }
 
-    return () => {};
+    return () => { };
   }, []);
+
+  if (latitude && longitude) {
+    return (
+      <div className="App">
+        {latitude && longitude && (
+          <Map
+            initialViewState={{
+              longitude,
+              latitude,
+              zoom: 16,
+            }}
+            style={{ width: "100vw", height: "100vh" }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+            mapboxAccessToken={process.env.REACT_APP_MAPBOX}
+          >
+            <Marker longitude={longitude} latitude={latitude} anchor="bottom">
+              <Room style={{ color: "slateblue" }}></Room>
+              <strong style={{ color: "slateblue" }}>I am HERE</strong>
+            </Marker>
+            {showPopup && (
+              <Popup
+                longitude={longitude}
+                latitude={latitude}
+                anchor="left"
+                onClose={() => dispatch({ type: "popup", payload: false })}
+              >
+                <ul className="card">
+                  <li>
+                    <em>Place</em>
+                    <p className="place">My house</p>
+                  </li>
+                  <li>
+                    <em>Review</em>
+                    <p>Beautiful Place I like it</p>
+                  </li>
+                  <li>
+                    <em>Rating</em>
+                    <div className="stars">
+                      <Star></Star>
+                      <Star></Star>
+                      <Star></Star>
+                      <Star></Star>
+                      <Star></Star>
+                    </div>
+                  </li>
+                  <li>
+                    <em>Information</em>
+                    <span className="username">
+                      Created by <b>Jewoo</b>
+                    </span>
+                    <span className="date">1 hour ago</span>
+                  </li>
+                </ul>
+              </Popup>
+            )}
+          </Map>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="App">
-      {latitude && longitude && (
-        <Map
-          initialViewState={{
-            longitude,
-            latitude,
-            zoom: 16,
-          }}
-          style={{ width: "100vw", height: "100vh" }}
-          mapStyle="mapbox://styles/mapbox/streets-v9"
-          mapboxAccessToken={process.env.REACT_APP_MAPBOX}
-        >
-          <Marker longitude={longitude} latitude={latitude} anchor="bottom">
-            <Room style={{ color: "slateblue" }}></Room>
-            <strong style={{ color: "slateblue" }}>I am HERE</strong>
-          </Marker>
-          {showPopup && (
-            <Popup
-              longitude={longitude}
-              latitude={latitude}
-              anchor="left"
-              onClose={() => dispatch({ type: "popup", payload: false })}
-            >
-              <ul className="card">
-                <li>
-                  <em>Place</em>
-                  <p className="place">My house</p>
-                </li>
-                <li>
-                  <em>Review</em>
-                  <p>Beautiful Place I like it</p>
-                </li>
-                <li>
-                  <em>Rating</em>
-                  <div className="stars">
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                  </div>
-                </li>
-                <li>
-                  <em>Information</em>
-                  <span className="username">
-                    Created by <b>Jewoo</b>
-                  </span>
-                  <span className="date">1 hour ago</span>
-                </li>
-              </ul>
-            </Popup>
-          )}
-        </Map>
-      )}
+      Loading...
     </div>
-  );
+  )
 }
 
 export default App;
