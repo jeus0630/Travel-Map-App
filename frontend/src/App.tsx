@@ -3,17 +3,30 @@ import Map, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Room, Star } from "@material-ui/icons";
 import "./App.scss";
+import { NumberLiteralType } from "typescript";
+
+type pinType = {
+  _id: string;
+  username: string;
+  title: string;
+  desc: string;
+  rating: number;
+  updatedAt: string;
+  latitude: number;
+}[];
 
 type stateType = {
   latitude: number;
   longitude: number;
   showPopup: boolean;
+  pins: pinType;
 };
 
 type ActionType =
   | { type: "latitude"; payload: number }
   | { type: "longitude"; payload: number }
-  | { type: "popup"; payload: boolean };
+  | { type: "popup"; payload: boolean }
+  | { type: "pins"; payload: pinType }
 
 type reducerType = (state: stateType, action: ActionType) => stateType;
 
@@ -34,6 +47,12 @@ const reducer: reducerType = (state: stateType, action: ActionType) => {
         ...state,
         showPopup: action.payload,
       };
+    case "pins":
+      return {
+        ...state,
+        ...state.pins,
+        ...action.payload
+      };
     default:
       return initialState;
   }
@@ -43,6 +62,17 @@ const initialState = {
   latitude: 0,
   longitude: 0,
   showPopup: true,
+  pins: [
+    {
+      _id: '',
+      username: '',
+      title: '',
+      desc: '',
+      rating: 0,
+      updatedAt: '',
+      latitude: 0
+    }
+  ]
 };
 
 function App() {
@@ -64,8 +94,22 @@ function App() {
       dispatch({ type: "longitude", payload: 127.1017 });
     }
 
+    const pins = async () => {
+      try {
+        const res = await fetch('/pins');
+        const data = await res.json();
+        dispatch({ type: 'pins', payload: data });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    pins();
+
     return () => { };
   }, []);
+
+
 
   if (latitude && longitude) {
     return (
