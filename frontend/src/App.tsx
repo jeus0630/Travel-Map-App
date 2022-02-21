@@ -5,35 +5,9 @@ import { Room, Star } from "@material-ui/icons";
 import "./App.scss";
 import { NumberLiteralType } from "typescript";
 import { format } from "timeago.js"
+import * as type from "./react-app-env";
 
-type pinType = {
-  _id: string;
-  username: string;
-  title: string;
-  desc: string;
-  rating: number;
-  latitude: number;
-  longitude: number;
-  createdAt: string;
-  updatedAt: string;
-}[];
-
-type stateType = {
-  latitude: number;
-  longitude: number;
-  showPopupId: string;
-  pins: pinType;
-};
-
-type ActionType =
-  | { type: "latitude"; payload: number }
-  | { type: "longitude"; payload: number }
-  | { type: "popup"; payload: string }
-  | { type: "pins"; payload: pinType }
-
-type reducerType = (state: stateType, action: ActionType) => stateType;
-
-const reducer: reducerType = (state: stateType, action: ActionType) => {
+const reducer: type.reducerType = (state, action) => {
   switch (action.type) {
     case "latitude":
       return {
@@ -56,6 +30,11 @@ const reducer: reducerType = (state: stateType, action: ActionType) => {
         ...state,
         pins: action.payload
       };
+    case "user":
+      return {
+        ...state,
+        user: action.payload
+      }
     default:
       return initialState;
   }
@@ -77,12 +56,13 @@ const initialState = {
       longitude: 0,
       createdAt: ''
     }
-  ]
+  ],
+  user: ''
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { latitude, longitude, showPopupId, pins } = state;
+  const { latitude, longitude, showPopupId, pins, user } = state;
 
   useEffect(() => {
     const pins = async () => {
@@ -137,7 +117,7 @@ function App() {
             pins.map(pin => (
               <>
                 <Marker longitude={pin.longitude} latitude={pin.latitude} anchor="bottom">
-                  <Room style={{ color: "slateblue", cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); dispatch({ type: 'popup', payload: pin._id }) }}></Room>
+                  <Room style={{ color: pin.username === user ? 'purple' : 'tomato', cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); dispatch({ type: 'popup', payload: pin._id }) }}></Room>
                 </Marker>
                 {
                   pin._id === showPopupId && <Popup
