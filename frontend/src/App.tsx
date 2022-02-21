@@ -137,14 +137,14 @@ function App() {
             pins.map(pin => (
               <>
                 <Marker longitude={pin.longitude} latitude={pin.latitude} anchor="bottom">
-                  <Room style={{ color: "slateblue" }} onClick={() => { dispatch({ type: 'popup', payload: pin._id }) }}></Room>
+                  <Room style={{ color: "slateblue", cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); dispatch({ type: 'popup', payload: pin._id }) }}></Room>
                 </Marker>
                 {
                   pin._id === showPopupId && <Popup
                     longitude={pin.longitude}
                     latitude={pin.latitude}
                     anchor="left"
-                    onClose={() => dispatch({ type: "popup", payload: '' })}
+                    onClose={(e) => { dispatch({ type: 'popup', payload: '' }) }}
                   >
                     <ul className="card">
                       <li>
