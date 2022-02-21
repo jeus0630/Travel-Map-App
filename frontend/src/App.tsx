@@ -4,6 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Room, Star } from "@material-ui/icons";
 import "./App.scss";
 import { NumberLiteralType } from "typescript";
+import { format } from "timeago.js"
 
 type pinType = {
   _id: string;
@@ -11,21 +12,23 @@ type pinType = {
   title: string;
   desc: string;
   rating: number;
-  updatedAt: string;
   latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
 }[];
 
 type stateType = {
   latitude: number;
   longitude: number;
-  showPopup: boolean;
+  showPopupId: string;
   pins: pinType;
 };
 
 type ActionType =
   | { type: "latitude"; payload: number }
   | { type: "longitude"; payload: number }
-  | { type: "popup"; payload: boolean }
+  | { type: "popup"; payload: string }
   | { type: "pins"; payload: pinType }
 
 type reducerType = (state: stateType, action: ActionType) => stateType;
@@ -43,9 +46,10 @@ const reducer: reducerType = (state: stateType, action: ActionType) => {
         longitude: action.payload,
       };
     case "popup":
+      console.log(action.payload);
       return {
         ...state,
-        showPopup: action.payload,
+        showPopupId: action.payload,
       };
     case "pins":
       return {
@@ -60,7 +64,7 @@ const reducer: reducerType = (state: stateType, action: ActionType) => {
 const initialState = {
   latitude: 0,
   longitude: 0,
-  showPopup: true,
+  showPopupId: '',
   pins: [
     {
       _id: '',
@@ -69,14 +73,17 @@ const initialState = {
       desc: '',
       rating: 0,
       updatedAt: '',
-      latitude: 0
+      latitude: 0,
+      longitude: 0,
+      createdAt: ''
     }
   ]
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { latitude, longitude, showPopup } = state;
+  const { latitude, longitude, showPopupId, pins } = state;
+
   useEffect(() => {
     const pins = async () => {
       try {
@@ -126,41 +133,54 @@ function App() {
             <Room style={{ color: "slateblue" }}></Room>
             <strong style={{ color: "slateblue" }}>I am HERE</strong>
           </Marker>
-          {showPopup && (
-            <Popup
-              longitude={longitude}
-              latitude={latitude}
-              anchor="left"
-              onClose={() => dispatch({ type: "popup", payload: false })}
-            >
-              <ul className="card">
-                <li>
-                  <em>Place</em>
-                  <p className="place">My house</p>
-                </li>
-                <li>
-                  <em>Review</em>
-                  <p>Beautiful Place I like it</p>
-                </li>
-                <li>
-                  <em>Rating</em>
-                  <div className="stars">
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                  </div>
-                </li>
-                <li>
-                  <em>Information</em>
-                  <span className="username">
-                    Created by <b>Jewoo</b>
-                  </span>
-                  <span className="date">1 hour ago</span>
-                </li>
-              </ul>
-            </Popup>
+          {
+            pins.map(pin => (
+              <>
+                <Marker longitude={pin.longitude} latitude={pin.latitude} anchor="bottom">
+                  <Room style={{ color: "slateblue" }} onClick={() => { dispatch({ type: 'popup', payload: pin._id }) }}></Room>
+                </Marker>
+                {
+                  pin._id === showPopupId && <Popup
+                    longitude={pin.longitude}
+                    latitude={pin.latitude}
+                    anchor="left"
+                    onClose={() => dispatch({ type: "popup", payload: '' })}
+                  >
+                    <ul className="card">
+                      <li>
+                        <em>Place</em>
+                        <p className="place">{pin.title}</p>
+                      </li>
+                      <li>
+                        <em>Review</em>
+                        <p>{pin.title}</p>
+                      </li>
+                      <li>
+                        <em>Rating</em>
+                        <div className="stars">
+                          <Star></Star>
+                          <Star></Star>
+                          <Star></Star>
+                          <Star></Star>
+                          <Star></Star>
+                        </div>
+                      </li>
+                      <li>
+                        <em>Information</em>
+                        <span className="username">
+                          Created by <b>{pin.username}</b>
+                        </span>
+                        <span className="date">{format(pin.createdAt)}</span>
+                      </li>
+                    </ul>
+                  </Popup>
+                }
+              </>
+            ))
+          }
+
+          {showPopupId && (
+            <></>
           )}
         </Map>
       </div>
