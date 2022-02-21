@@ -17,6 +17,10 @@ export type stateType = {
     showPopupId: string;
     pins: pinType;
     user: string;
+    newPlace: {
+        latitude: number;
+        longitude: number;
+    }
 };
   
 export type ActionType =
@@ -25,5 +29,6 @@ export type ActionType =
     | { type: "popup"; payload: string }
     | { type: "pins"; payload: pinType }
     | { type: "user"; payload: string }
+    | { type: "newPlace"; payload: { latitude: number; longitude: number } };
   
 export type reducerType = (state: stateType, action: ActionType) => stateType;
