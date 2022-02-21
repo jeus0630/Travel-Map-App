@@ -153,7 +153,7 @@ function App() {
                       </li>
                       <li>
                         <em>Review</em>
-                        <p>{pin.title}</p>
+                        <p>{pin.desc}</p>
                       </li>
                       <li>
                         <em>Rating</em>
