@@ -5,18 +5,42 @@ const bcrypt = require('bcrypt');
 // register
 router.post("/register",async (req,res) => {
     try{
+
+        //check if username is valid
+        const isUserInValid = (await User.find({})).filter(user => user.username === req.body.username);
+        if (isUserInValid) {
+            res.status(400).json({
+                status: {
+                username: false
+            }})
+            return;
+        }
+
+        //check if email is valid
+        const isEmailInvalid = (await User.find({})).filter(user => user.email === req.body.email);
+        if (isEmailInvalid) {
+            res.status(400).json({
+                status: {
+                email: false
+            }})
+            return;
+        }
+        
         //generate new password
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
+
         //create new user
         const newUser = new User({
             username: req.body.username,
             email: req.body.email,
             password: hash
         })
+
         //save user and send response
         const user = await newUser.save();
         res.status(200).json(user._id);
+        
     }catch(err){
         console.log(err);
         res.status(500).json(err);
