@@ -71,4 +71,19 @@
             }
         }
     }
+
+    .button{
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        color: #fff;
+
+        &.logout{
+            background-color: tomato;
+        }
+
+        &.login{
+            
+        }
+    }
 }

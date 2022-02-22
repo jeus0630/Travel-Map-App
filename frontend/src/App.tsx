@@ -1,11 +1,4 @@
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEvent,
-  FormEventHandler,
-  useEffect,
-  useReducer,
-} from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useReducer } from "react";
 import Map, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Room, Star } from "@material-ui/icons";
@@ -169,8 +162,6 @@ function App() {
 
     payload[name] = value;
 
-    console.log(payload);
-
     dispatch({ type: "addPlace", payload });
   };
 
@@ -207,6 +198,27 @@ function App() {
           body: JSON.stringify(newPin),
         });
         const data = await res.json();
+
+        // submit 후 창 사라지게
+        dispatch({
+          type: "newPlace",
+          payload: { latitude: 0, longitude: 0 },
+        });
+        resetAddPlaceHandler();
+
+        // pins에 추가
+        dispatch({
+          type: "pins",
+          payload: [
+            ...pins,
+            {
+              ...newPin,
+              _id: data._id,
+              createdAt: data.createdAt,
+              updatedAt: data.updatedAt,
+            },
+          ],
+        });
         console.log(data);
       } catch (err) {
         console.log(err);
@@ -214,13 +226,6 @@ function App() {
     };
 
     sendData();
-
-    // submit 후 창 사라지게
-    dispatch({
-      type: "newPlace",
-      payload: { latitude: 0, longitude: 0 },
-    });
-    resetAddPlaceHandler();
   };
 
   if (latitude && longitude && focusPlace.longitude && focusPlace.latitude) {
@@ -364,6 +369,9 @@ function App() {
               </div>
             </Popup>
           )}
+          <button className="button logout">Log out</button>
+          <button className="button login">Login</button>
+          <button className="button register">Register</button>
         </Map>
       </div>
     );
