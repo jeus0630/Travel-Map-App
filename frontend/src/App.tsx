@@ -1,4 +1,11 @@
-import React, { useEffect, useReducer } from "react";
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEvent,
+  FormEventHandler,
+  useEffect,
+  useReducer,
+} from "react";
 import Map, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Room, Star } from "@material-ui/icons";
@@ -19,7 +26,6 @@ const reducer: type.reducerType = (state, action) => {
         longitude: action.payload,
       };
     case "popup":
-      console.log(action.payload);
       return {
         ...state,
         showPopupId: action.payload,
@@ -38,6 +44,16 @@ const reducer: type.reducerType = (state, action) => {
       return {
         ...state,
         newPlace: action.payload,
+      };
+    case "focusPlace":
+      return {
+        ...state,
+        focusPlace: action.payload,
+      };
+    case "addPlace":
+      return {
+        ...state,
+        addPlace: action.payload,
       };
     default:
       return initialState;
@@ -66,11 +82,29 @@ const initialState = {
     latitude: 0,
     longitude: 0,
   },
+  focusPlace: {
+    latitude: 0,
+    longitude: 0,
+  },
+  addPlace: {
+    title: "",
+    desc: "",
+    rating: 0,
+  },
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { latitude, longitude, showPopupId, pins, user, newPlace } = state;
+  const {
+    latitude,
+    longitude,
+    showPopupId,
+    pins,
+    user,
+    newPlace,
+    focusPlace,
+    addPlace,
+  } = state;
 
   useEffect(() => {
     const pins = async () => {
@@ -88,6 +122,13 @@ function App() {
     }): void => {
       dispatch({ type: "latitude", payload: position.coords.latitude });
       dispatch({ type: "longitude", payload: position.coords.longitude });
+      dispatch({
+        type: "focusPlace",
+        payload: {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        },
+      });
     };
 
     if (navigator.geolocation) {
@@ -110,19 +151,54 @@ function App() {
     });
   };
 
-  if (latitude && longitude) {
+  const addPlaceHandler = (e: ChangeEvent) => {
+    let { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
+
+    // if (typeof value === "string") value = parseInt(value, 10);
+
+    const payload: {
+      [key: string]: string | number;
+      title: string;
+      desc: string;
+      rating: number;
+    } = {
+      title: "",
+      desc: "",
+      rating: 0,
+    };
+
+    payload[name] = value;
+
+    dispatch({ type: "addPlace", payload });
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    const newPin = {
+      username: user,
+      title: addPlace.title,
+      desc: addPlace.desc,
+      rating: addPlace.rating,
+      latitude: newPlace.latitude,
+      longitude: newPlace.longitude,
+    };
+  };
+
+  if (latitude && longitude && focusPlace.longitude && focusPlace.latitude) {
     return (
       <div className="App">
         <Map
           initialViewState={{
-            longitude,
-            latitude,
+            longitude: focusPlace.longitude,
+            latitude: focusPlace.latitude,
             zoom: 16,
           }}
           style={{ width: "100vw", height: "100vh" }}
           mapStyle="mapbox://styles/mapbox/streets-v9"
           mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           onDblClick={handleAddClick}
+          doubleClickZoom={false}
         >
           <Marker longitude={longitude} latitude={latitude} anchor="bottom">
             <Room style={{ color: "slateblue" }}></Room>
@@ -143,6 +219,13 @@ function App() {
                   onClick={(e) => {
                     e.stopPropagation();
                     dispatch({ type: "popup", payload: pin._id });
+                    dispatch({
+                      type: "focusPlace",
+                      payload: {
+                        latitude: pin.latitude,
+                        longitude: pin.longitude,
+                      },
+                    });
                   }}
                 ></Room>
               </Marker>
@@ -199,26 +282,46 @@ function App() {
                 });
               }}
             >
-              <ul className="card">
-                <li>
-                  <em>Place</em>
-                  <input type="text" placeholder="Place" />
-                </li>
-                <li>
-                  <em>Review</em>
-                  <input type="text" placeholder="Review" />
-                </li>
-                <li>
-                  <em>Rating</em>
-                  <div className="stars">
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
-                    <Star></Star>
+              <div className="form-wrap">
+                <form onSubmit={handleSubmit}>
+                  <div className="input-wrap">
+                    <label htmlFor="input-box">Title</label>
+                    <input
+                      type="text"
+                      placeholder="Enter a title"
+                      id="input-box"
+                      name="title"
+                      onChange={addPlaceHandler}
+                    />
                   </div>
-                </li>
-              </ul>
+                  <div className="review-wrap">
+                    <label htmlFor="review-box">Review</label>
+                    <textarea
+                      id="review-box"
+                      placeholder="How's this place?"
+                      name="desc"
+                      onChange={addPlaceHandler}
+                    ></textarea>
+                  </div>
+                  <div className="select-wrap">
+                    <label htmlFor="select-box">rating</label>
+                    <select
+                      id="select-box"
+                      name="rating"
+                      onChange={addPlaceHandler}
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <div className="submit-box">
+                    <input type="submit" value={"Add a pin"} />
+                  </div>
+                </form>
+              </div>
             </Popup>
           )}
         </Map>
