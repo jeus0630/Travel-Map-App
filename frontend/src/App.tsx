@@ -55,6 +55,11 @@ const reducer: type.reducerType = (state, action) => {
         ...state,
         addPlace: action.payload,
       };
+    case "resetPlace":
+      return {
+        ...state,
+        addPlace: action.payload,
+      };
     default:
       return initialState;
   }
@@ -89,7 +94,7 @@ const initialState = {
   addPlace: {
     title: "",
     desc: "",
-    rating: 0,
+    rating: 1,
   },
 };
 
@@ -145,6 +150,7 @@ function App() {
   }, []);
 
   const handleAddClick = (e: mapboxgl.MapMouseEvent) => {
+    resetAddPlaceHandler();
     dispatch({
       type: "newPlace",
       payload: { latitude: e.lngLat.lat, longitude: e.lngLat.lng },
@@ -154,22 +160,29 @@ function App() {
   const addPlaceHandler = (e: ChangeEvent) => {
     let { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
 
-    // if (typeof value === "string") value = parseInt(value, 10);
-
     const payload: {
       [key: string]: string | number;
       title: string;
       desc: string;
       rating: number;
-    } = {
-      title: "",
-      desc: "",
-      rating: 0,
-    };
+    } = { ...addPlace };
 
     payload[name] = value;
 
+    console.log(payload);
+
     dispatch({ type: "addPlace", payload });
+  };
+
+  const resetAddPlaceHandler = () => {
+    const payload = {
+      ...addPlace,
+      title: "",
+      desc: "",
+      rating: 1,
+    };
+
+    dispatch({ type: "resetPlace", payload });
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -183,6 +196,31 @@ function App() {
       latitude: newPlace.latitude,
       longitude: newPlace.longitude,
     };
+
+    const sendData = async () => {
+      try {
+        const res = await fetch("/pins", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPin),
+        });
+        const data = await res.json();
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    sendData();
+
+    // submit 후 창 사라지게
+    dispatch({
+      type: "newPlace",
+      payload: { latitude: 0, longitude: 0 },
+    });
+    resetAddPlaceHandler();
   };
 
   if (latitude && longitude && focusPlace.longitude && focusPlace.latitude) {
@@ -250,11 +288,9 @@ function App() {
                     <li>
                       <em>Rating</em>
                       <div className="stars">
-                        <Star></Star>
-                        <Star></Star>
-                        <Star></Star>
-                        <Star></Star>
-                        <Star></Star>
+                        {[...Array(pin.rating)].map((start) => (
+                          <Star></Star>
+                        ))}
                       </div>
                     </li>
                     <li>
@@ -280,6 +316,7 @@ function App() {
                   type: "newPlace",
                   payload: { latitude: 0, longitude: 0 },
                 });
+                resetAddPlaceHandler();
               }}
             >
               <div className="form-wrap">
@@ -291,6 +328,7 @@ function App() {
                       placeholder="Enter a title"
                       id="input-box"
                       name="title"
+                      value={addPlace.title}
                       onChange={addPlaceHandler}
                     />
                   </div>
@@ -300,6 +338,7 @@ function App() {
                       id="review-box"
                       placeholder="How's this place?"
                       name="desc"
+                      value={addPlace.desc}
                       onChange={addPlaceHandler}
                     ></textarea>
                   </div>
@@ -308,6 +347,7 @@ function App() {
                     <select
                       id="select-box"
                       name="rating"
+                      value={addPlace.rating}
                       onChange={addPlaceHandler}
                     >
                       <option value="1">1</option>

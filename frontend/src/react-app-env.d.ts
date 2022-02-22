@@ -40,5 +40,7 @@ export type ActionType =
     | { type: "user"; payload: string }
     | { type: "newPlace"; payload: { latitude: number; longitude: number } }
     | { type: "focusPlace"; payload: { latitude: number; longitude: number } }
-    | { type: "addPlace"; payload: { title: string; desc: string; rating: number } };
+    | { type: "addPlace"; payload: { title: string; desc: string; rating: number } }
+    | { type: "resetPlace"; payload: { title: string; desc: string; rating: number } };
+    
 export type reducerType = (state: stateType, action: ActionType) => stateType;
