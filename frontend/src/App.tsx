@@ -5,6 +5,7 @@ import { Room, Star } from "@material-ui/icons";
 import "./App.scss";
 import { format } from "timeago.js";
 import * as type from "./react-app-env";
+import Register from "./components/Register";
 
 const reducer: type.reducerType = (state, action) => {
   switch (action.type) {
@@ -369,9 +370,15 @@ function App() {
               </div>
             </Popup>
           )}
-          <button className="button logout">Log out</button>
-          <button className="button login">Login</button>
-          <button className="button register">Register</button>
+          {user ? (
+            <button className="button logout">Log out</button>
+          ) : (
+            <div className="buttons">
+              <button className="button login">Login</button>
+              <button className="button register">Register</button>
+            </div>
+          )}
+          <Register></Register>
         </Map>
       </div>
     );
