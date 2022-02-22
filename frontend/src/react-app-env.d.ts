@@ -15,6 +15,8 @@ export type stateType = {
     latitude: number;
     longitude: number;
     showPopupId: string;
+    showLogin: boolean;
+    showRegister: boolean;
     pins: pinType;
     user: string;
     newPlace: {
@@ -41,6 +43,8 @@ export type ActionType =
     | { type: "newPlace"; payload: { latitude: number; longitude: number } }
     | { type: "focusPlace"; payload: { latitude: number; longitude: number } }
     | { type: "addPlace"; payload: { title: string; desc: string; rating: number } }
-    | { type: "resetPlace"; payload: { title: string; desc: string; rating: number } };
+    | { type: "resetPlace"; payload: { title: string; desc: string; rating: number } }
+    | { type: "showLogin"; payload: boolean }
+    | { type: "showRegister"; payload: boolean };
     
 export type reducerType = (state: stateType, action: ActionType) => stateType;

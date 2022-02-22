@@ -6,6 +6,7 @@ import "./App.scss";
 import { format } from "timeago.js";
 import * as type from "./react-app-env";
 import Register from "./components/Register";
+import Login from "./components/Login";
 
 const reducer: type.reducerType = (state, action) => {
   switch (action.type) {
@@ -54,6 +55,16 @@ const reducer: type.reducerType = (state, action) => {
         ...state,
         addPlace: action.payload,
       };
+    case "showLogin":
+      return {
+        ...state,
+        showLogin: action.payload,
+      };
+    case "showRegister":
+      return {
+        ...state,
+        showRegister: action.payload,
+      };
     default:
       return initialState;
   }
@@ -63,6 +74,8 @@ const initialState = {
   latitude: 0,
   longitude: 0,
   showPopupId: "",
+  showLogin: false,
+  showRegister: false,
   pins: [
     {
       _id: "",
@@ -98,6 +111,8 @@ function App() {
     latitude,
     longitude,
     showPopupId,
+    showLogin,
+    showRegister,
     pins,
     user,
     newPlace,
@@ -374,11 +389,24 @@ function App() {
             <button className="button logout">Log out</button>
           ) : (
             <div className="buttons">
-              <button className="button login">Login</button>
-              <button className="button register">Register</button>
+              <button
+                className="button login"
+                onClick={() => dispatch({ type: "showLogin", payload: true })}
+              >
+                Login
+              </button>
+              <button
+                className="button register"
+                onClick={() =>
+                  dispatch({ type: "showRegister", payload: true })
+                }
+              >
+                Register
+              </button>
             </div>
           )}
-          <Register></Register>
+          {showLogin && <Login></Login>}
+          {showRegister && <Register dispatch={dispatch}></Register>}
         </Map>
       </div>
     );

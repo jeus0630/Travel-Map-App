@@ -1,9 +1,13 @@
 import * as React from "react";
 import { useState, useRef } from "react";
-import { Room } from "@material-ui/icons";
+import { Cancel, Room } from "@material-ui/icons";
+import { ActionType } from "../react-app-env";
+
 import "./register.scss";
 
-interface IRegisterProps {}
+interface IRegisterProps {
+  dispatch: React.Dispatch<ActionType>;
+}
 
 type InfoType = {
   [key: string]: string;
@@ -19,7 +23,7 @@ type IntputHandlerType = {
   password: (bool: boolean) => void;
 };
 
-const Register: React.FunctionComponent<IRegisterProps> = (props) => {
+const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
   const [info, setInfo] = useState<InfoType>({
     username: "",
     email: "",
@@ -87,6 +91,10 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
     }
   };
 
+  const cancelHandler = () => {
+    dispatch({ type: "showRegister", payload: false });
+  };
+
   return (
     <div className="register-container">
       <div className="logo">
@@ -147,6 +155,7 @@ const Register: React.FunctionComponent<IRegisterProps> = (props) => {
           <button onClick={registerHandler}>Register</button>
         </div>
       </form>
+      <Cancel className="register-cancel" onClick={cancelHandler}></Cancel>
     </div>
   );
 };
