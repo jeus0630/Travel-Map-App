@@ -17,14 +17,14 @@ router.post("/register",async (req,res) => {
         }
 
         //check if email is valid
-        const isEmailInvalid = (await User.find({})).filter(user => user.email === req.body.email);
-        if (isEmailInvalid) {
-            res.status(400).json({
-                status: {
-                email: false
-            }})
-            return;
-        }
+        // const isEmailInvalid = (await User.find({})).filter(user => user.email === req.body.email);
+        // if (isEmailInvalid) {
+        //     res.status(400).json({
+        //         status: {
+        //         email: false
+        //     }})
+        //     return;
+        // }
         
         //generate new password
         const salt = bcrypt.genSaltSync(10);
@@ -40,7 +40,7 @@ router.post("/register",async (req,res) => {
         //save user and send response
         const user = await newUser.save();
         res.status(200).json(user._id);
-        
+
     }catch(err){
         console.log(err);
         res.status(500).json(err);
