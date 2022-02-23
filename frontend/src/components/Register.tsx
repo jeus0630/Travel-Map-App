@@ -95,7 +95,12 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
       const data = await res.json();
       setInvalidUser(true);
       setRegister(true);
-
+      setInfo({
+        ...info,
+        username: "",
+        email: "",
+        password: ""
+      })
     } catch (err) {
       console.log(err);
     }

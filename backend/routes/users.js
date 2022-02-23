@@ -9,6 +9,7 @@ router.post("/register",async (req,res) => {
         //check if username is valid
         const isUserInValid = await User.findOne({username: req.body.username});
         if (isUserInValid) {
+            console.log('???');
             res.status(400).json({
                 status: {
                 username: false
