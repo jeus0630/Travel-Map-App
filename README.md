@@ -24,32 +24,11 @@ cd frontend
 npm i
 ```
 
-Set the environmental variables required for the frontend(.env.local) and backend(.env).
-
-프론트엔드(.env.local) 및 백엔드(.env)에 필요 환경변수들을 설정해주세요.
-
-```.env.local
-// .env.local
-
-REACT_APP_MAPBOX = "YOUR MAPBOX TOKEN"
-```
-
-```.env
-// .env
-
-PORT = "YOUR PORT NUMBER MATCH WITH PROXY IN /frontend/package.json"
-MONGO_URL = "YOUR MONGO DB CONNECTION ADDRESS"
-```
-
-You can [click](https://https://www.mapbox.com/) to get Mapbox token.
-
-Mapbox 토큰을 받으시려면 [클릭](https://https://www.mapbox.com/) 하세요.
-
 ## Usage
 
-You can check out [here](https://https://www.mapbox.com/) how to use it in detail!
+You can check out [here](https://spicy-damselfly-bd9.notion.site/Travel-Map-App-d660459bf46644c08d18f4a4fba74052) how to use it in detail!
 
-자세한 사용법은 [여기](https://https://www.mapbox.com/)를 확인해주세요!
+자세한 사용법은 [여기](https://spicy-damselfly-bd9.notion.site/Travel-Map-App-d660459bf46644c08d18f4a4fba74052)를 확인해주세요!
 
 ## Contributing
 
