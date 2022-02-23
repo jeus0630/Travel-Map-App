@@ -160,7 +160,7 @@ function App() {
       payload: window.localStorage.getItem("user") || "",
     });
 
-    return () => {};
+    return () => { };
   }, []);
 
   const handleAddClick = (e: mapboxgl.MapMouseEvent) => {
@@ -181,7 +181,15 @@ function App() {
       rating: number;
     } = { ...addPlace };
 
-    payload[name] = value;
+    if (name === 'rating') {
+      const rate = parseInt(value, 10);
+      payload[name] = rate;
+    } else {
+      payload[name] = value;
+    }
+
+    console.log(payload);
+
 
     dispatch({ type: "addPlace", payload });
   };
@@ -281,7 +289,7 @@ function App() {
               >
                 <Room
                   style={{
-                    color: pin.username === user ? "purple" : "tomato",
+                    color: pin.username === user ? (user ? "purple" : "tomato") : "tomato",
                     cursor: "pointer",
                   }}
                   onClick={(e) => {
@@ -318,7 +326,7 @@ function App() {
                     <li>
                       <em>Rating</em>
                       <div className="stars">
-                        {[...Array(pin.rating)].map((start, idx) => (
+                        {[...Array(pin.rating)].map((star, idx) => (
                           <Star key={idx}></Star>
                         ))}
                       </div>

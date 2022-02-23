@@ -1,98 +1,99 @@
-.App{
-    .card {
+.App {
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+
+    li {
+      em {
+        display: block;
+        margin: 3px 0;
+        border-bottom: 0.5px solid tomato;
+        font-size: 13px;
+        color: tomato;
+      }
+
+      .stars {
+        svg {
+          width: 20px;
+          color: #f5e749;
+        }
+      }
+
+      .date {
+        padding-left: 5px;
+        font-size: 10px;
+      }
+    }
+  }
+  .form-wrap {
+    width: 200px;
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      > div {
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
-        padding: 10px;
-
-        li {
-            em {
-                display: block;
-                margin: 3px 0;
-                border-bottom: .5px solid tomato;
-                font-size: 13px;
-                color: tomato;
-            }
-
-            .stars {
-                svg {
-                    width: 20px;
-                    color: #F5E749;
-                }
-            }
-
-            .date {
-                padding-left: 5px;
-                font-size: 10px;
-            }
+        margin-top: 10px;
+        label {
+          margin-bottom: 8px;
+          border-bottom: 0.5px solid tomato;
+          font-size: 13px;
+          color: tomato;
         }
+
+        input {
+          padding: 3px;
+        }
+
+        textarea {
+          height: 100px;
+          padding: 3px;
+          resize: none;
+        }
+
+        select {
+          width: 100%;
+
+          option {
+            width: 100%;
+          }
+        }
+
+        input[type="submit"] {
+          background-color: tomato;
+          border: none;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
     }
-    .form-wrap {
-        width: 200px;
-        form {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            
-            >div {
-                display: flex;
-                flex-direction: column;
-                margin-top: 10px;
-                label{
-                    margin-bottom: 8px;
-                    border-bottom: .5px solid tomato;
-                    font-size: 13px;
-                    color: tomato;
-                }
-                
-                input{
-                    padding: 3px;
-                }
+  }
 
-                textarea{
-                    height: 100px;
-                    padding: 3px;
-                }
+  .button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
 
-                select{
-                    width: 100%;
-
-                    option{
-                        width: 100%;
-                    }
-                }
-
-                input[type=submit]{
-                    background-color: tomato;
-                    border: none;
-                    color: #fff;
-                    cursor: pointer;
-                }
-            }
-        }
+    &.logout {
+      background-color: tomato;
     }
 
-    .button{
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 5px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        color: #fff;
-
-        &.logout{
-            background-color: tomato;
-        }
-
-        &.login{
-            right: 80px;
-            background-color: teal;
-        }
-
-        &.register{
-            background-color: slateblue;
-        }
+    &.login {
+      right: 80px;
+      background-color: teal;
     }
+
+    &.register {
+      background-color: slateblue;
+    }
+  }
 }
