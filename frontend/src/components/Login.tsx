@@ -107,6 +107,7 @@ const Login: React.FunctionComponent<ILoginProps> = ({ dispatch }) => {
             value={info.username}
             name="username"
             onChange={changeHandler}
+            autoComplete="off"
           />
           {!username && (
             <span className="warning warning-username">Enter a username</span>

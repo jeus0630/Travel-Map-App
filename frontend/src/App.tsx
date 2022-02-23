@@ -410,15 +410,19 @@ function App() {
             <div className="buttons">
               <button
                 className="button login"
-                onClick={() => dispatch({ type: "showLogin", payload: true })}
+                onClick={() => {
+                  dispatch({ type: "showLogin", payload: true });
+                  dispatch({ type: "showRegister", payload: false });
+                }}
               >
                 Login
               </button>
               <button
                 className="button register"
-                onClick={() =>
-                  dispatch({ type: "showRegister", payload: true })
-                }
+                onClick={() => {
+                  dispatch({ type: "showRegister", payload: true });
+                  dispatch({ type: "showLogin", payload: false });
+                }}
               >
                 Register
               </button>
