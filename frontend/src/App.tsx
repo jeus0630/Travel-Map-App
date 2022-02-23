@@ -352,7 +352,7 @@ function App() {
               )}
             </React.Fragment>
           ))}
-          {newPlace.latitude && newPlace.longitude && (
+          {(newPlace.latitude && newPlace.longitude) !== 0 && (
             <Popup
               longitude={newPlace.longitude}
               latitude={newPlace.latitude}
