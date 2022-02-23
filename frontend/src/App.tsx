@@ -155,7 +155,9 @@ function App() {
       pins();
     }
 
-    return () => {};
+    dispatch({ type: "user", payload: window.localStorage.getItem("user") || "" })
+
+    return () => { };
   }, []);
 
   const handleAddClick = (e: mapboxgl.MapMouseEvent) => {
@@ -235,7 +237,7 @@ function App() {
             },
           ],
         });
-        console.log(data);
+
       } catch (err) {
         console.log(err);
       }
@@ -243,6 +245,11 @@ function App() {
 
     sendData();
   };
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("user");
+    dispatch({ type: 'user', payload: '' });
+  }
 
   if (latitude && longitude && focusPlace.longitude && focusPlace.latitude) {
     return (
@@ -264,7 +271,7 @@ function App() {
             <strong style={{ color: "slateblue" }}>I am HERE</strong>
           </Marker>
           {pins.map((pin) => (
-            <>
+            <React.Fragment key={pin._id}>
               <Marker
                 longitude={pin.longitude}
                 latitude={pin.latitude}
@@ -309,8 +316,8 @@ function App() {
                     <li>
                       <em>Rating</em>
                       <div className="stars">
-                        {[...Array(pin.rating)].map((start) => (
-                          <Star></Star>
+                        {[...Array(pin.rating)].map((start, idx) => (
+                          <Star key={idx}></Star>
                         ))}
                       </div>
                     </li>
@@ -324,7 +331,7 @@ function App() {
                   </ul>
                 </Popup>
               )}
-            </>
+            </React.Fragment>
           ))}
           {newPlace.latitude && newPlace.longitude && (
             <Popup
@@ -386,7 +393,7 @@ function App() {
             </Popup>
           )}
           {user ? (
-            <button className="button logout">Log out</button>
+            <button className="button logout" onClick={handleLogout}>Log out</button>
           ) : (
             <div className="buttons">
               <button
@@ -405,7 +412,7 @@ function App() {
               </button>
             </div>
           )}
-          {showLogin && <Login></Login>}
+          {showLogin && <Login dispatch={dispatch}></Login>}
           {showRegister && <Register dispatch={dispatch}></Register>}
         </Map>
       </div>

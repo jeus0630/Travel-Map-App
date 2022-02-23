@@ -1,4 +1,4 @@
-.register-container {
+.login-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   width: 300px;
-  height: 340px;
+  height: 250px;
   margin: auto;
   padding: 20px;
   border-radius: 10px;
@@ -18,7 +18,7 @@
   .logo {
     display: flex;
     align-items: center;
-    color: #695acb;
+    color: tomato;
     font-weight: 700;
   }
 
@@ -52,7 +52,7 @@
         padding: 5px;
         border: none;
         border-radius: 5px;
-        background-color: slateblue;
+        background-color: tomato;
         color: #fff;
         cursor: pointer;
       }
@@ -60,22 +60,10 @@
       .warning {
         color: red;
       }
-
-      &.success-wrap {
-        p {
-          color: rgb(67, 165, 67);
-
-          span {
-            text-decoration: underline;
-            color: #000;
-            cursor: pointer;
-          }
-        }
-      }
     }
   }
 
-  .register-cancel {
+  .login-cancel {
     position: absolute;
     top: 7px;
     right: 7px;
