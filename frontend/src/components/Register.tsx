@@ -93,7 +93,7 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
       }
 
       const data = await res.json();
-      setInvalidUser(true);
+      setInvalidUser(false);
       setRegister(true);
       setInfo({
         ...info,
