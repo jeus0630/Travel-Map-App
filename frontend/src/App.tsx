@@ -155,9 +155,12 @@ function App() {
       pins();
     }
 
-    dispatch({ type: "user", payload: window.localStorage.getItem("user") || "" })
+    dispatch({
+      type: "user",
+      payload: window.localStorage.getItem("user") || "",
+    });
 
-    return () => { };
+    return () => {};
   }, []);
 
   const handleAddClick = (e: mapboxgl.MapMouseEvent) => {
@@ -237,7 +240,6 @@ function App() {
             },
           ],
         });
-
       } catch (err) {
         console.log(err);
       }
@@ -248,8 +250,8 @@ function App() {
 
   const handleLogout = () => {
     window.localStorage.removeItem("user");
-    dispatch({ type: 'user', payload: '' });
-  }
+    dispatch({ type: "user", payload: "" });
+  };
 
   if (latitude && longitude && focusPlace.longitude && focusPlace.latitude) {
     return (
@@ -324,7 +326,7 @@ function App() {
                     <li>
                       <em>Information</em>
                       <span className="username">
-                        Created by <b>{pin.username}</b>
+                        Created by <b>{pin.username || "Anonymous"}</b>
                       </span>
                       <span className="date">{format(pin.createdAt)}</span>
                     </li>
@@ -393,7 +395,9 @@ function App() {
             </Popup>
           )}
           {user ? (
-            <button className="button logout" onClick={handleLogout}>Log out</button>
+            <button className="button logout" onClick={handleLogout}>
+              Log out
+            </button>
           ) : (
             <div className="buttons">
               <button
