@@ -148,13 +148,20 @@ function App() {
     };
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
       pins();
-    } else {
-      //허용 안할시 기본값 판교
-      dispatch({ type: "latitude", payload: 37.3897 });
-      dispatch({ type: "longitude", payload: 127.1017 });
-      pins();
+
+      navigator.geolocation.getCurrentPosition(showPosition, (err) => {
+        //허용 안할시 기본값 판교
+        dispatch({ type: "latitude", payload: 37.3897 });
+        dispatch({ type: "longitude", payload: 127.1017 });
+        dispatch({
+          type: "focusPlace",
+          payload: {
+            latitude: 37.3897,
+            longitude: 127.1017
+          },
+        });
+      });
     }
 
     dispatch({
