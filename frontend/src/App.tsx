@@ -155,6 +155,8 @@ function App() {
       pins();
     }
 
+    dispatch({ type: "user", payload: window.localStorage.getItem("user") || "" })
+
     return () => { };
   }, []);
 
@@ -235,7 +237,7 @@ function App() {
             },
           ],
         });
-        console.log(data);
+
       } catch (err) {
         console.log(err);
       }
@@ -243,6 +245,11 @@ function App() {
 
     sendData();
   };
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("user");
+    dispatch({ type: 'user', payload: '' });
+  }
 
   if (latitude && longitude && focusPlace.longitude && focusPlace.latitude) {
     return (
@@ -386,7 +393,7 @@ function App() {
             </Popup>
           )}
           {user ? (
-            <button className="button logout">Log out</button>
+            <button className="button logout" onClick={handleLogout}>Log out</button>
           ) : (
             <div className="buttons">
               <button

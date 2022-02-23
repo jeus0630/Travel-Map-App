@@ -83,9 +83,6 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
         body: JSON.stringify(info),
       });
 
-      console.log(res);
-
-
       if (res.status !== 200) {
         setInvalidUser(true);
         userInput.current.focus();

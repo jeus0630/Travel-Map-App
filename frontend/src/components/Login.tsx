@@ -81,6 +81,8 @@ const Login: React.FunctionComponent<ILoginProps> = ({ dispatch }) => {
 
       const data = await res.json();
 
+      window.localStorage.setItem("user", data.username);
+      dispatch({ type: 'user', payload: data.username });
       dispatch({ type: 'showLogin', payload: false });
 
     } catch (err) {
