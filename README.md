@@ -53,8 +53,8 @@ You can check out [here](https://https://www.mapbox.com/) how to use it in detai
 
 ## Contributing
 
-Pull requests are always welcome.
+Pull requests are always welcome.<br>
 For major changes, please open an issue first to discuss what you would like to change.
 
-Pull requests는 언제나 환영입니다.
+Pull requests는 언제나 환영입니다.<br>
 Major한 변경들에 대해서는 어떤 부분이 개선되어야 할지 토론을 위해 이슈를 먼저 생성해 주세요.
