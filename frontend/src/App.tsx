@@ -7,6 +7,8 @@ import { format } from "timeago.js";
 import * as type from "./react-app-env";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import LoadingSpin from "react-loading-spin";
+
 
 const reducer: type.reducerType = (state, action) => {
   switch (action.type) {
@@ -435,7 +437,13 @@ function App() {
     );
   }
 
-  return <div className="App">Loading...</div>;
+  return (
+    <div className="App">
+      <div className={"loading-spin"}>
+        <LoadingSpin />
+      </div>
+    </div>
+  );
 }
 
 export default App;
