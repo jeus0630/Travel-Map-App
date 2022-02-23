@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+# Travel Map App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Travel Map App** is a library where you can take simple notes such as rating and reviews about the places you have been to.
 
-## Available Scripts
+**Travel Map App**은 다녀온 곳들에 대해 별점 및 리뷰 등 간단한 메모를 할 수 있는 라이브러리 입니다.
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+Use the package manager like npm or yarn to install necessary node modules for backend and frontend.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+npm 또는 yarn과 같은 패키지 매니저를 사용하여 필요한 노드 모듈들을 설치하세요.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+cd backend
+npm i
+```
 
-### `npm test`
+```bash
+cd frontend
+npm i
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Set the environmental variables required for the frontend(.env.local) and backend(.env).
 
-### `npm run build`
+프론트엔드(.env.local) 및 백엔드(.env)에 필요 환경변수들을 설정해주세요.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```.env.local
+// .env.local
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+REACT_APP_MAPBOX = "YOUR MAPBOX TOKEN"
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```.env
+// .env
 
-### `npm run eject`
+PORT = "YOUR PORT NUMBER MATCH WITH PROXY IN /frontend/package.json"
+MONGO_URL = "YOUR MONGO DB CONNECTION ADDRESS"
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You can [click](https://https://www.mapbox.com/) to get Mapbox token.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Mapbox 토큰을 받으시려면 [클릭](https://https://www.mapbox.com/) 하세요.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Usage
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+You can check out here how to use it in detail.
 
-## Learn More
+자세한 사용법은 여기를 확인해주세요!
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contributing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Pull requests는 언제나 환영입니다. Major한 변경들에 대해서는 어떤 부분이 개선되어야 할지 토론을 위해 이슈를 먼저 생성해 주세요.
