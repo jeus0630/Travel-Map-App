@@ -33,6 +33,7 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
   const [username, setUsername] = useState(true);
   const [email, setEmail] = useState(true);
   const [password, setPassword] = useState(true);
+  const [register, setRegister] = useState(false);
 
   const [invalidUser, setInvalidUser] = useState(false);
   const userInput = useRef<HTMLInputElement>(null!);
@@ -81,15 +82,29 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
         },
         body: JSON.stringify(info),
       });
-      const data = await res.json();
-      if (!data.status?.username) {
+
+      console.log(res);
+
+
+      if (res.status !== 200) {
         setInvalidUser(true);
         userInput.current.focus();
+        return;
       }
+
+      const data = await res.json();
+      setInvalidUser(true);
+      setRegister(true);
+
     } catch (err) {
       console.log(err);
     }
   };
+
+  const logInClickHandler = () => {
+    dispatch({ type: 'showRegister', payload: false });
+    dispatch({ type: 'showLogin', payload: true });
+  }
 
   const cancelHandler = () => {
     dispatch({ type: "showRegister", payload: false });
@@ -151,6 +166,13 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
             <span className="warning warning-password">Enter a password</span>
           )}
         </div>
+        {
+          register && (<div className="success-wrap">
+            <p>
+              You have successfully registerd. Log in <span onClick={logInClickHandler}>Here</span>
+            </p>
+          </div>)
+        }
         <div className="button-wrap">
           <button onClick={registerHandler}>Register</button>
         </div>

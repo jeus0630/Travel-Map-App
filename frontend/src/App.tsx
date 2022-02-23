@@ -309,8 +309,8 @@ function App() {
                     <li>
                       <em>Rating</em>
                       <div className="stars">
-                        {[...Array(pin.rating)].map((start) => (
-                          <Star></Star>
+                        {[...Array(pin.rating)].map((start, idx) => (
+                          <Star key={idx}></Star>
                         ))}
                       </div>
                     </li>
@@ -405,7 +405,7 @@ function App() {
               </button>
             </div>
           )}
-          {showLogin && <Login></Login>}
+          {showLogin && <Login dispatch={dispatch}></Login>}
           {showRegister && <Register dispatch={dispatch}></Register>}
         </Map>
       </div>
