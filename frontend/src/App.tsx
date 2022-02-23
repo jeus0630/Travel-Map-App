@@ -155,7 +155,7 @@ function App() {
       pins();
     }
 
-    return () => {};
+    return () => { };
   }, []);
 
   const handleAddClick = (e: mapboxgl.MapMouseEvent) => {
@@ -264,7 +264,7 @@ function App() {
             <strong style={{ color: "slateblue" }}>I am HERE</strong>
           </Marker>
           {pins.map((pin) => (
-            <>
+            <React.Fragment key={pin._id}>
               <Marker
                 longitude={pin.longitude}
                 latitude={pin.latitude}
@@ -324,7 +324,7 @@ function App() {
                   </ul>
                 </Popup>
               )}
-            </>
+            </React.Fragment>
           ))}
           {newPlace.latitude && newPlace.longitude && (
             <Popup
