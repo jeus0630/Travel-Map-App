@@ -66,7 +66,7 @@ const Login: React.FunctionComponent<ILoginProps> = ({ dispatch }) => {
     if (!username || !password) return;
 
     try {
-      const res = await fetch('/users/login', {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",

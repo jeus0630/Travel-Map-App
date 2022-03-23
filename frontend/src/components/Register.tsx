@@ -75,7 +75,7 @@ const Register: React.FunctionComponent<IRegisterProps> = ({ dispatch }) => {
     if (!isAllTrue) return;
 
     try {
-      const res = await fetch("/users/register", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users/register`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",

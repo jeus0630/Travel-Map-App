@@ -8,7 +8,10 @@ import * as type from "./react-app-env";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import LoadingSpin from "react-loading-spin";
-
+import mapboxgl from 'mapbox-gl';  
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const reducer: type.reducerType = (state, action) => {
   switch (action.type) {
@@ -125,7 +128,7 @@ function App() {
   useEffect(() => {
     const pins = async () => {
       try {
-        const res = await fetch("/pins");
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/pins`);
         const data = await res.json();
         dispatch({ type: "pins", payload: data });
       } catch (err) {
@@ -228,7 +231,7 @@ function App() {
 
     const sendData = async () => {
       try {
-        const res = await fetch("/pins", {
+        const res = await fetch("https://jeus-travel-map-app.herokuapp.com/api/pins", {
           method: "post",
           headers: {
             "Content-Type": "application/json",
